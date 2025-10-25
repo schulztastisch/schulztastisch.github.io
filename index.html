@@ -1,169 +1,185 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alexander Schulz</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alexander Schulz</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♠️</text></svg>">
 
-  <!-- Favicon als Ass-Pique-Smiley -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♠️</text></svg>">
+<style>
+  :root {
+    --bg-light:#f7f7f7;
+    --text-light:#222;
+    --button-bg-light:#fff;
+    --button-border-light:#ddd;
+    --button-hover-light:#eee;
 
-  <style>
-    /* Farbvariablen */
-    :root {
-      --bg-light: #f7f7f7;
-      --text-light: #222;
-      --button-bg-light: #fff;
-      --button-border-light: #ddd;
-      --button-hover-light: #eee;
+    --bg-dark:#0f0f0f;
+    --text-dark:#f5f5f5;
+    --button-bg-dark:#1c1c1c;
+    --button-border-dark:#333;
+    --button-hover-dark:#2a2a2a;
 
-      --bg-dark: #0f0f0f;
-      --text-dark: #f5f5f5;
-      --button-bg-dark: #1c1c1c;
-      --button-border-dark: #333;
-      --button-hover-dark: #2a2a2a;
+    --transition:all .25s ease;
+    --corner-color:#e11d48;
+    --corner-symbol:"♥";
+    --corner-letter:"A";
+  }
 
-      --accent: #4b9fff;
-      --transition: all 0.25s ease;
-    }
+  body {
+    margin:0;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial,sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:2rem;
+    text-align:center;
+    transition:var(--transition);
+  }
 
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 2rem;
-      text-align: center;
-      transition: var(--transition);
-    }
+  body.light {
+    background-color:var(--bg-light);
+    color:var(--text-light);
+    --corner-symbol:"♥";
+    --corner-color:#e11d48;
+  }
 
-    body.light {
-      background-color: var(--bg-light);
-      color: var(--text-light);
-    }
-    body.light a.button {
-      background-color: var(--button-bg-light);
-      border-color: var(--button-border-light);
-    }
-    body.light a.button:hover {
-      background-color: var(--button-hover-light);
-    }
+  body.dark {
+    background-color:var(--bg-dark);
+    color:var(--text-dark);
+    --corner-symbol:"♠";
+    --corner-color:#f5f5f5;
+  }
 
-    body.dark {
-      background-color: var(--bg-dark);
-      color: var(--text-dark);
-    }
-    body.dark a.button {
-      background-color: var(--button-bg-dark);
-      border-color: var(--button-border-dark);
-    }
-    body.dark a.button:hover {
-      background-color: var(--button-hover-dark);
-    }
+  h1{font-size:2rem;margin-bottom:.25rem;}
+  p{font-size:1rem;margin-bottom:2rem;opacity:.8;}
 
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 0.25rem;
-    }
+  .links {
+    display:flex;flex-direction:column;gap:1rem;
+    width:100%;max-width:320px;
+  }
+  a.button {
+    text-decoration:none;
+    padding:.8rem 1rem;
+    border:1px solid;
+    border-radius:12px;
+    color:inherit;
+    font-weight:500;
+    box-shadow:0 1px 4px rgba(0,0,0,.1);
+    transition:var(--transition);
+  }
+  body.light a.button {
+    background-color:var(--button-bg-light);
+    border-color:var(--button-border-light);
+  }
+  body.light a.button:hover {background-color:var(--button-hover-light);}
+  body.dark a.button {
+    background-color:var(--button-bg-dark);
+    border-color:var(--button-border-dark);
+  }
+  body.dark a.button:hover {background-color:var(--button-hover-dark);}
 
-    p {
-      font-size: 1rem;
-      margin-bottom: 2rem;
-      opacity: 0.8;
-    }
+  footer{margin-top:3rem;font-size:.85rem;opacity:.5;}
 
-    .links {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      width: 100%;
-      max-width: 320px;
-    }
+  #mode-toggle{
+    position:fixed;
+    top:calc(1rem + env(safe-area-inset-top));
+    right:calc(1rem + env(safe-area-inset-right));
+    font-size:1.6rem;
+    cursor:pointer;
+    user-select:none;
+    z-index:100;
+    transition:transform .2s ease;
+  }
+  #mode-toggle:hover{transform:scale(1.2);}
 
-    a.button {
-      text-decoration: none;
-      padding: 0.8rem 1rem;
-      border: 1px solid;
-      border-radius: 12px;
-      color: inherit;
-      font-weight: 500;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-      transition: var(--transition);
-    }
+  .corner {
+    position:fixed;
+    font-size:clamp(20px,4.5vw,38px);
+    line-height:1.1;
+    z-index:1;
+    pointer-events:none;
+    color:var(--corner-color);
+    font-weight:600;
+    font-family: 'Times New Roman', serif;
+  }
 
-    footer {
-      margin-top: 3rem;
-      font-size: 0.85rem;
-      opacity: 0.5;
-    }
+  .corner.tl {
+    top:calc(.75rem + env(safe-area-inset-top));
+    left:calc(.75rem + env(safe-area-inset-left));
+    text-align:center;
+  }
+  .corner.tl::before {
+    content: var(--corner-letter);
+    display:block;
+    font-size:0.8em;
+  }
+  .corner.tl::after {
+    content: var(--corner-symbol);
+    display:block;
+    font-size:1em;
+  }
 
-    /* Toggle-Schalter */
-    #mode-toggle {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      font-size: 1.5rem;
-      cursor: pointer;
-      user-select: none;
-      z-index: 100;
-      transition: transform 0.2s ease;
-    }
-    #mode-toggle:hover {
-      transform: scale(1.2);
-    }
-  </style>
+  .corner.br {
+    right:calc(.75rem + env(safe-area-inset-right));
+    bottom:calc(.75rem + env(safe-area-inset-bottom));
+    text-align:center;
+    transform: rotate(180deg);
+  }
+  .corner.br::before {
+    content: var(--corner-letter);
+    display:block;
+    font-size:0.8em;
+  }
+  .corner.br::after {
+    content: var(--corner-symbol);
+    display:block;
+    font-size:1em;
+  }
+</style>
 </head>
 <body>
-  <!-- Toggle Button -->
-  <div id="mode-toggle" title="Dark/Light Mode">☀</div>
+  <div id="mode-toggle" title="Dark/Light Mode">☼</div>
+
+  <div class="corner tl" aria-hidden="true"></div>
+  <div class="corner br" aria-hidden="true"></div>
 
   <main>
     <h1>Alexander Schulz</h1>
     <p>@schulztastisch</p>
 
     <div class="links">
-      <a class="button" href="https://www.linkedin.com/in/schulztastisch" target="_blank">💼 LinkedIn</a>
-      <a class="button" href="https://www.instagram.com/schulztastisch" target="_blank">📸 Instagram</a>
+      <a class="button" href="https://www.linkedin.com/in/schulztastisch" target="_blank" rel="noopener">💼 LinkedIn</a>
+      <a class="button" href="https://github.com/schulztastisch" target="_blank" rel="noopener">💻 GitHub</a>
+      <a class="button" href="https://www.instagram.com/schulztastisch" target="_blank" rel="noopener">📸 Instagram</a>
       <a class="button" href="mailto:alex@schulztastisch.de">✉ E-Mail</a>
     </div>
   </main>
 
-  <footer>
-    © 2025 Alexander Schulz
-  </footer>
+  <footer>© 2025 Alexander Schulz</footer>
 
   <script>
-    // Dark/Light Mode Toggle
-    const toggle = document.getElementById("mode-toggle");
-
-    // Systempräferenz initial
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    document.body.classList.add(prefersDark ? "dark" : "light");
-    toggle.textContent = prefersDark ? "☾" : "☀";
-
-    // Klick-Handler
-    toggle.addEventListener("click", () => {
-      if(document.body.classList.contains("dark")) {
-        document.body.classList.replace("dark", "light");
-        toggle.textContent = "☀";
-        localStorage.setItem("theme", "light");
-      } else {
-        document.body.classList.replace("light", "dark");
-        toggle.textContent = "☾";
-        localStorage.setItem("theme", "dark");
-      }
-    });
-
-    // Gespeicherte Wahl laden
     const savedTheme = localStorage.getItem("theme");
-    if(savedTheme) {
-      document.body.classList.remove("dark", "light");
-      document.body.classList.add(savedTheme);
-      toggle.textContent = savedTheme === "dark" ? "☾" : "☀";
-    }
+    document.body.classList.add(savedTheme || (prefersDark ? "dark":"light"));
+
+    const toggle=document.getElementById("mode-toggle");
+    const setIcon=()=>toggle.textContent=
+      document.body.classList.contains("dark")?"☾":"☼";
+    setIcon();
+
+    toggle.addEventListener("click",()=>{
+      if(document.body.classList.contains("dark")){
+        document.body.classList.replace("dark","light");
+        localStorage.setItem("theme","light");
+      }else{
+        document.body.classList.replace("light","dark");
+        localStorage.setItem("theme","dark");
+      }
+      setIcon();
+    });
   </script>
 </body>
 </html>
