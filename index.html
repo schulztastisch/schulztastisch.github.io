@@ -55,6 +55,13 @@
     --corner-color:#f5f5f5;
   }
 
+  body.party main,
+  body.party footer,
+  body.party .links,
+  body.party .corner {
+    filter:brightness(.6);
+  }
+
   h1{font-size:2rem;margin-bottom:.25rem;}
   p{font-size:1rem;margin-bottom:2rem;opacity:.8;}
 
@@ -96,6 +103,40 @@
     transition:transform .2s ease;
   }
   #mode-toggle:hover{transform:scale(1.2);}
+
+  #mode-toggle.shake{
+    animation:toggle-shake 0.4s ease;
+  }
+  @keyframes toggle-shake{
+    0%{transform:translateX(0);}
+    20%{transform:translateX(-4px);}
+    40%{transform:translateX(4px);}
+    60%{transform:translateX(-3px);}
+    80%{transform:translateX(3px);}
+    100%{transform:translateX(0);}
+  }
+
+  #party-trigger{
+    position:fixed;
+    top:calc(1rem + env(safe-area-inset-top));
+    right:calc(3.2rem + env(safe-area-inset-right));
+    font-size:1.6rem;
+    cursor:pointer;
+    user-select:none;
+    z-index:101;
+    display:none;
+    transition:transform .2s ease;
+  }
+  #party-trigger.show{
+    display:block;
+    animation:bomb-wiggle 1s ease-in-out infinite;
+  }
+  @keyframes bomb-wiggle{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    25%{transform:translateY(-2px) rotate(-10deg);}
+    50%{transform:translateY(0) rotate(10deg);}
+    75%{transform:translateY(-1px) rotate(-6deg);}
+  }
 
   .corner {
     position:fixed;
@@ -140,13 +181,248 @@
     display:block;
     font-size:1em;
   }
+
+
+  #party-overlay{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:600;
+    opacity:0;
+    transition:opacity .3s ease;
+    background:
+      radial-gradient(circle at 10% 20%, rgba(239,68,68,.55) 0, transparent 40%),
+      radial-gradient(circle at 80% 30%, rgba(59,130,246,.55) 0, transparent 45%),
+      radial-gradient(circle at 30% 80%, rgba(16,185,129,.55) 0, transparent 45%),
+      radial-gradient(circle at 70% 75%, rgba(244,114,182,.55) 0, transparent 40%);
+    mix-blend-mode:screen;
+    animation:party-lights 6s linear infinite;
+  }
+
+  body.party #party-overlay{
+    opacity:.85;
+  }
+
+  @keyframes party-lights{
+    0%{
+      background-position:0% 0%,100% 0%,0% 100%,100% 100%;
+    }
+    50%{
+      background-position:50% 20%,80% 60%,20% 80%,60% 40%;
+    }
+    100%{
+      background-position:0% 0%,100% 0%,0% 100%,100% 100%;
+    }
+  }
+
+
+  #nyancat-wrapper{
+    position:fixed;
+    left:-260px;
+    bottom:40%;
+    display:none;
+    align-items:center;
+    z-index:999;
+    pointer-events:none;
+    transform:translateX(0);
+  }
+
+  .nyan-rainbow{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    margin-right:-10px;
+    opacity:0;
+  }
+
+  .rb{
+    height:8px;
+    margin:1px 0;
+    border-radius:4px;
+    image-rendering:pixelated;
+    animation:wave 1.4s ease-in-out infinite;
+  }
+
+  .r1{background-color:#ff0000;width:320px;animation-delay:0s;}
+  .r2{background-color:#ff9900;width:300px;animation-delay:0.05s;}
+  .r3{background-color:#ffff00;width:310px;animation-delay:0.1s;}
+  .r4{background-color:#33ff00;width:290px;animation-delay:0.15s;}
+  .r5{background-color:#0099ff;width:305px;animation-delay:0.2s;}
+  .r6{background-color:#6633ff;width:295px;animation-delay:0.25s;}
+
+  @keyframes wave{
+    0%  {transform:translateX(0) translateY(0);}
+    25% {transform:translateX(-3px) translateY(1px);}
+    50% {transform:translateX(-1px) translateY(-1px);}
+    75% {transform:translateX(-2px) translateY(2px);}
+    100%{transform:translateX(0) translateY(0);}
+  }
+
+  @keyframes nyan-fly{
+    0%  {transform:translateX(0);}
+    100%{transform:translateX(120vw);}
+  }
+
+  #nyancat-wrapper.fly{
+    display:flex;
+    animation:nyan-fly 10s linear forwards;
+  }
+  #nyancat-wrapper.fly .nyan-rainbow{
+    opacity:1;
+  }
+
+  #nyancat{
+    width:96px;
+    height:auto;
+    image-rendering:pixelated;
+  }
+
+
+  #disco-ball{
+    position:fixed;
+    top:-120px;
+    left:50%;
+    transform:translateX(-50%);
+    width:80px;
+    height:140px;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    z-index:900;
+    pointer-events:none;
+  }
+
+  #disco-ball::before{
+    content:"";
+    position:absolute;
+    top:0;
+    width:2px;
+    height:60px;
+    background:linear-gradient(to bottom,#aaa,#666);
+  }
+
+  .disco-inner{
+    position:absolute;
+    top:60px;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 30% 30%, #fff, #ccc 40%, #888 70%, #444 100%);
+    box-shadow:
+      0 0 10px rgba(255,255,255,.8),
+      0 0 25px rgba(255,255,255,.4);
+    overflow:hidden;
+  }
+
+  .disco-inner::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:linear-gradient(#0000 90%, rgba(255,255,255,.4) 90%);
+    background-size:10px 10px;
+    mix-blend-mode:overlay;
+  }
+
+  .disco-inner::after{
+    content:"";
+    position:absolute;
+    inset:-20px;
+    background:conic-gradient(from 0deg,
+      rgba(255,255,255,.8),
+      rgba(255,255,255,0) 20%,
+      rgba(255,255,255,.8) 40%,
+      rgba(255,255,255,0) 60%,
+      rgba(255,255,255,.8) 80%,
+      rgba(255,255,255,0) 100%);
+    mix-blend-mode:screen;
+    opacity:.7;
+  }
+
+  @keyframes disco-spin{
+    0%   {transform:rotate(0deg);}
+    100% {transform:rotate(360deg);}
+  }
+
+  @keyframes disco-drop{
+    0%   {top:-120px;}
+    100% {top:0;}
+  }
+
+  @keyframes disco-up{
+    0%   {top:0;}
+    100% {top:-120px;}
+  }
+
+  #disco-ball.active .disco-inner{
+    animation:disco-spin 2.5s linear infinite;
+  }
+  #disco-ball.drop{
+    animation:disco-drop .6s ease-out forwards;
+  }
+  #disco-ball.up{
+    animation:disco-up .6s ease-in forwards;
+  }
+
+
+  #confetti{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:850;
+    display:none;
+  }
+
+  .confetti-piece{
+    position:absolute;
+    width:8px;
+    height:14px;
+    border-radius:2px;
+    opacity:.9;
+    bottom:100%;
+    animation:confetti-fall 2.5s ease-out forwards;
+  }
+
+  @keyframes confetti-fall{
+    0%{
+      bottom:100%;
+      transform:translateX(0) rotateZ(0deg);
+    }
+    100%{
+      bottom:0;
+      transform:translateX(0) rotateZ(360deg);
+    }
+  }
+
+
+  #broom{
+    position:fixed;
+    bottom:0.5rem;
+    left:-15%;
+    font-size:3rem;
+    display:none;
+    z-index:860;
+    pointer-events:none;
+  }
 </style>
 </head>
 <body>
   <div id="mode-toggle" title="Dark/Light Mode">☼</div>
+  <div id="party-trigger" title="Party starten">🎊</div>
 
   <div class="corner tl" aria-hidden="true"></div>
   <div class="corner br" aria-hidden="true"></div>
+
+  <div id="party-overlay" aria-hidden="true"></div>
+
+  <div id="disco-ball" aria-hidden="true">
+    <div class="disco-inner"></div>
+  </div>
+
+  <div id="confetti" aria-hidden="true"></div>
+
+  <div id="broom" aria-hidden="true">🧹</div>
 
   <main>
     <h1>Alexander Schulz</h1>
@@ -162,25 +438,188 @@
 
   <footer>© 2025 Alexander Schulz</footer>
 
+  <div id="nyancat-wrapper" aria-hidden="true">
+    <div class="nyan-rainbow">
+      <div class="rb r1"></div>
+      <div class="rb r2"></div>
+      <div class="rb r3"></div>
+      <div class="rb r4"></div>
+      <div class="rb r5"></div>
+      <div class="rb r6"></div>
+    </div>
+    <img id="nyancat"
+         src="https://www.nyan.cat/cats/original.gif"
+         alt="Nyan Cat">
+  </div>
+
+  <audio id="nyan-audio" preload="auto">
+    <source src="https://archive.org/download/nyan-cat-original/Nyan%20Cat%20%5Boriginal%5D.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const savedTheme = localStorage.getItem("theme");
     document.body.classList.add(savedTheme || (prefersDark ? "dark":"light"));
 
-    const toggle=document.getElementById("mode-toggle");
-    const setIcon=()=>toggle.textContent=
-      document.body.classList.contains("dark")?"☾":"☼";
+    const toggle       = document.getElementById("mode-toggle");
+    const partyTrigger = document.getElementById("party-trigger");
+    const nyanWrap     = document.getElementById("nyancat-wrapper");
+    const nyanAudio    = document.getElementById("nyan-audio");
+    const discoBall    = document.getElementById("disco-ball");
+    const confettiEl   = document.getElementById("confetti");
+    const broom        = document.getElementById("broom");
+
+    let toggleCount = 0;
+    let partyArmed  = false;
+    let partyRunning = false;
+
+    const setIcon = () =>
+      toggle.textContent = document.body.classList.contains("dark") ? "☾" : "☼";
     setIcon();
 
-    toggle.addEventListener("click",()=>{
-      if(document.body.classList.contains("dark")){
-        document.body.classList.replace("dark","light");
-        localStorage.setItem("theme","light");
-      }else{
-        document.body.classList.replace("light","dark");
-        localStorage.setItem("theme","dark");
+    function randomBottom(){
+      return Math.floor(Math.random() * (70 - 20) + 20);
+    }
+
+    function createConfetti(){
+      confettiEl.innerHTML = "";
+      confettiEl.style.display = "block";
+
+      const colors = ["#f97316","#22c55e","#3b82f6","#e11d48","#eab308","#a855f7"];
+      const pieces = 120;
+
+      for(let i=0;i<pieces;i++){
+        const piece = document.createElement("div");
+        piece.className = "confetti-piece";
+        const x = Math.random()*100;
+        piece.style.left = x + "%";
+        piece.dataset.x = x.toString();
+        piece.style.animationDelay = (Math.random()*0.8) + "s";
+        piece.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+        confettiEl.appendChild(piece);
       }
+    }
+
+    function clearConfetti(){
+      confettiEl.innerHTML = "";
+      confettiEl.style.display = "none";
+    }
+
+    function startBroom(){
+      broom.style.display = "block";
+      let startTime = null;
+      const duration = 4000; 
+      const startX = -15;    
+      const endX   = 115;    
+
+      function step(timestamp){
+        if(!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        const t = Math.min(1, elapsed / duration);
+        const broomX = startX + (endX - startX) * t;
+        broom.style.left = broomX + "%";
+
+        const pieces = confettiEl.querySelectorAll(".confetti-piece");
+        pieces.forEach(p => {
+          if(p.dataset.cleared === "1") return;
+          const x = parseFloat(p.dataset.x || "0");
+          if(x >= broomX - 8 && x <= broomX + 8){
+            p.dataset.cleared = "1";
+            p.style.transition = "opacity 0.2s linear";
+            p.style.opacity = "0";
+            setTimeout(() => p.remove(), 220);
+          }
+        });
+
+        if(t < 1){
+          requestAnimationFrame(step);
+        } else {
+          broom.style.display = "none";
+          clearConfetti();
+          document.body.classList.remove("party");
+          toggleCount = 0;
+          partyArmed = false;
+          partyRunning = false;
+          partyTrigger.classList.remove("show");
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    function triggerNyan(){
+      partyRunning = true;
+
+      document.body.classList.remove("light");
+      document.body.classList.add("dark");
+      localStorage.setItem("theme","dark");
       setIcon();
+
+      nyanWrap.style.bottom = randomBottom() + "%";
+
+      nyanWrap.classList.remove("fly");
+      void nyanWrap.offsetWidth;
+      nyanWrap.classList.add("fly");
+
+      document.body.classList.add("party");
+
+      discoBall.classList.remove("up");
+      discoBall.classList.add("drop","active");
+
+      createConfetti();
+
+      nyanAudio.currentTime = 0;
+      nyanAudio.play().catch(()=>{});
+
+      const onNyanEnd = () => {
+        nyanWrap.removeEventListener("animationend", onNyanEnd);
+        nyanWrap.classList.remove("fly");
+        nyanAudio.pause();
+
+        discoBall.classList.remove("drop");
+        discoBall.classList.add("up");
+
+        const onDiscoEnd = () => {
+          discoBall.removeEventListener("animationend", onDiscoEnd);
+          discoBall.classList.remove("up","active");
+          startBroom();
+        };
+        discoBall.addEventListener("animationend", onDiscoEnd);
+      };
+      nyanWrap.addEventListener("animationend", onNyanEnd);
+    }
+
+    toggle.addEventListener("click",()=>{
+      if(partyRunning){
+        toggle.classList.remove("shake");
+        void toggle.offsetWidth; 
+        toggle.classList.add("shake");
+        return;
+      }
+
+      document.body.classList.toggle("dark");
+      document.body.classList.toggle("light");
+
+      localStorage.setItem(
+        "theme",
+        document.body.classList.contains("dark") ? "dark" : "light"
+      );
+
+      setIcon();
+
+      if(!partyArmed){
+        toggleCount++;
+        if(toggleCount === 11){
+          partyArmed = true;
+          partyTrigger.classList.add("show");
+        }
+      }
+    });
+
+    partyTrigger.addEventListener("click", () => {
+      if(!partyArmed || partyRunning) return;
+      partyTrigger.classList.remove("show");
+      triggerNyan();
     });
   </script>
 </body>
