@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <title>Weiterleitung…</title>
+  <meta charset="UTF-8">
+  <title>Weiterleitung</title>
   <script>
+    // Hol den letzten Teil der URL
     const parts = window.location.pathname.split("/");
-    const reelId = parts[parts.length - 1] || parts[parts.length - 2];
+    const id = parts[parts.length - 1]; // z.B. ABC123
 
-    if (reelId) {
-      window.location.replace("https://www.instagram.com/reel/" + reelId + "/");
+    if (id) {
+      // Weiterleitung zu Instagram
+      window.location.href = "https://www.instagram.com/reel/" + id + "/";
+    } else {
+      document.body.innerHTML = "<p>Keine Reel-ID angegeben.</p>";
     }
   </script>
 </head>
 <body>
-  <p>Weiterleitung…</p>
+<p>Weiterleitung…</p>
 </body>
 </html>
